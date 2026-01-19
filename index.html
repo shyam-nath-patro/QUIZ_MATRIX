@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Matrix - Test Your Knowledge</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav id="topNav">
+        <div class="wrapper">
+            <div class="brand">
+                <span class="brand-text">🎯 Quiz Matrix</span>
+            </div>
+            <button class="hamburger" onclick="toggleNav()">☰</button>
+            <ul class="menu" id="mainMenu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#quiz" class="btn-start">Start Quiz</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="landingPage">
+        <div class="banner" id="home">
+            <h1>Test Your Knowledge</h1>
+            <p>Challenge yourself with thousands of questions across multiple categories</p>
+            <a href="#quiz" class="btn-primary" onclick="jumpToQuiz()">Start Quiz Now</a>
+        </div>
+
+        <section id="about">
+            <h2>Why Choose Quiz Matrix?</h2>
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="icon">📚</div>
+                    <h3>Multiple Categories</h3>
+                    <p>From science to history, test your knowledge across diverse topics</p>
+                </div>
+                <div class="feature-box">
+                    <div class="icon">⏱️</div>
+                    <h3>Timed Challenges</h3>
+                    <p>Race against the clock and earn bonus points for quick answers</p>
+                </div>
+                <div class="feature-box">
+                    <div class="icon">🏆</div>
+                    <h3>Score Tracking</h3>
+                    <p>Monitor your progress and improve with detailed statistics</p>
+                </div>
+                <div class="feature-box">
+                    <div class="icon">🎮</div>
+                    <h3>Fun & Educational</h3>
+                    <p>Learn while having fun with our engaging quiz format</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="categories">
+            <h2>Popular Quiz Categories</h2>
+            <div class="topics-grid">
+                <div class="topic-box" onclick="beginQuiz('9')">
+                    <div class="topic-icon">🌍</div>
+                    <h3>General Knowledge</h3>
+                </div>
+                <div class="topic-box" onclick="beginQuiz('17')">
+                    <div class="topic-icon">🔬</div>
+                    <h3>Science & Nature</h3>
+                </div>
+                <div class="topic-box" onclick="beginQuiz('18')">
+                    <div class="topic-icon">💻</div>
+                    <h3>Computers</h3>
+                </div>
+                <div class="topic-box" onclick="beginQuiz('21')">
+                    <div class="topic-icon">⚽</div>
+                    <h3>Sports</h3>
+                </div>
+                <div class="topic-box" onclick="beginQuiz('23')">
+                    <div class="topic-icon">📖</div>
+                    <h3>History</h3>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Get In Touch</h2>
+            <div class="contact-wrapper">
+                <form onsubmit="sendMessage(event)">
+                    <div class="input-group">
+                        <label for="userName">Name:</label>
+                        <input type="text" id="userName" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="userEmail">Email:</label>
+                        <input type="email" id="userEmail" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="msgSubject">Subject:</label>
+                        <input type="text" id="msgSubject" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="msgBody">Message:</label>
+                        <textarea id="msgBody" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Send Message</button>
+                </form>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Quiz Matrix. All rights reserved.</p>
+            <p>Challenge your mind, expand your knowledge</p>
+            <div class="social-icons">
+                <a href="#" title="Facebook">📘</a>
+                <a href="#" title="Twitter">🐦</a>
+                <a href="#" title="Instagram">📷</a>
+                <a href="#" title="LinkedIn">💼</a>
+            </div>
+        </footer>
+    </div>
+
+    <div id="quizSection">
+        <div class="main-box">
+            <div class="top-bar">
+                <h1> 🎯 Quiz Matrix </h1>
+                <button class="btn-back" onclick="goHome()">← Back to Home</button>
+            </div>
+
+            <div class="config-panel show">
+                <div class="input-group">
+                    <label for="selectedTopic">Category:</label>
+                    <select id="selectedTopic">
+                        <option value="">Any Category</option>
+                        <option value="9">General Knowledge</option>
+                        <option value="10">Books</option>
+                        <option value="17">Science & Nature</option>
+                        <option value="18">Computers</option>
+                        <option value="21">Sports</option>
+                        <option value="23">History</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="levelChoice">Difficulty:</label>
+                    <select id="levelChoice">
+                        <option value="">Any Difficulty</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="questionCount">Number of Questions (5-20):</label>
+                    <input type="number" id="questionCount" min="5" max="20" value="10">
+                </div>
+
+                <div class="input-group">
+                    <label for="timeLimit">Time per Question (seconds):</label>
+                    <input type="number" id="timeLimit" min="10" max="120" value="30">
+                </div>
+
+                <button id="btnBegin">Start Quiz</button>
+            </div>
+
+            <div class="play-panel">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <div class="question-info">
+                    <div class="q-number" id="qNumber"></div>
+                    <div class="clock" id="clockDisplay"></div>
+                </div>
+
+                <div class="q-text" id="questionDisplay"></div>
+
+                <div class="choices" id="answerChoices"></div>
+
+                <button id="btnNext" style="margin-top: 20px;" disabled>Next Question</button>
+            </div>
+
+            <div class="summary-panel">
+                <div class="summary-header">
+                    <h2>Quiz Complete! 🎉</h2>
+                    <div class="score-badge">
+                        <div class="points" id="totalPoints"></div>
+                        <div class="points-label">Score</div>
+                    </div>
+                </div>
+
+                <div class="metrics">
+                    <div class="metric-box">
+                        <div class="metric-num" id="rightAnswers"></div>
+                        <div class="metric-label">Correct</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-num" id="wrongAnswers"></div>
+                        <div class="metric-label">Incorrect</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-num" id="percentCorrect"></div>
+                        <div class="metric-label">Accuracy</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-num" id="averageTime"></div>
+                        <div class="metric-label">Avg Time</div>
+                    </div>
+                </div>
+
+                <button id="btnRestart">Take Another Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
