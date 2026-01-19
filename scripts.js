@@ -16,6 +16,7 @@ function goHome() {
     document.getElementById('topNav').style.display = 'block';
     
     clearQuizData();
+    resetConfigPanel();
     
     window.scrollTo(0, 0);
 }
@@ -60,11 +61,13 @@ let currentIndex = 0;
 let totalScore = 0;
 let correctCount = 0;
 let wrongCount = 0;
+let skippedCount = 0;
 let countdown;
 let timeRemaining;
 let secondsPerQ;
 let startTime;
 let elapsedTime = 0;
+let questionStatus = [];
 
 const configPanel = document.querySelector('.config-panel');
 const playPanel = document.querySelector('.play-panel');
@@ -86,7 +89,13 @@ async function initQuiz() {
 
     try {
         configPanel.innerHTML = '<div class="loading">Loading questions...</div>';
-        const response = await fetch(apiUrl);
+        
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+        
+        const response = await fetch(apiUrl, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        
         const result = await response.json();
 
         if (result.response_code !== 0) {
@@ -109,13 +118,14 @@ async function initQuiz() {
         });
 
         quizData.sort(() => Math.random() - 0.5);
+        questionStatus = new Array(quizData.length).fill('unanswered');
 
         configPanel.classList.remove('show');
         playPanel.classList.add('show');
         showQuestion();
     } catch (error) {
         configPanel.innerHTML = `
-            <div class="error">Failed to load questions. Please try again.</div>
+            <div class="error">Failed to load questions. Please check your connection and try again.</div>
             <button onclick="location.reload()">Retry</button>
         `;
     }
@@ -192,12 +202,14 @@ function pickAnswer(chosen, chosenEl) {
 
     if (isRight) {
         correctCount++;
+        questionStatus[currentIndex] = 'correct';
         const speedBonus = Math.floor((timeRemaining / secondsPerQ) * 10);
         const diffBonus = current.difficulty === 'hard' ? 15 :
             current.difficulty === 'medium' ? 10 : 5;
         totalScore += 10 + speedBonus + diffBonus;
     } else {
         wrongCount++;
+        questionStatus[currentIndex] = 'wrong';
         chosenEl.classList.add('wrong');
     }
 
@@ -205,18 +217,19 @@ function pickAnswer(chosen, chosenEl) {
 }
 
 function timeExpired() {
-    wrongCount++;
-    elapsedTime += secondsPerQ;
-
-    const current = quizData[currentIndex];
-    document.querySelectorAll('.choice').forEach(el => {
-        el.style.cursor = 'default';
-        if (el.textContent === current.correctAnswer) {
-            el.classList.add('right');
-        }
-    });
-
-    document.getElementById('btnNext').disabled = false;
+    clearInterval(countdown);
+    
+    if (!document.querySelector('.choice.picked')) {
+        skippedCount++;
+        questionStatus[currentIndex] = 'skipped';
+        elapsedTime += secondsPerQ;
+        
+        document.querySelectorAll('.choice').forEach(el => {
+            el.style.cursor = 'default';
+        });
+        
+        document.getElementById('btnNext').disabled = false;
+    }
 }
 
 function moveToNext() {
@@ -233,21 +246,40 @@ function displayResults() {
     playPanel.classList.remove('show');
     summaryPanel.classList.add('show');
 
-    const percent = Math.round((correctCount / quizData.length) * 100);
-    const avgSeconds = Math.round(elapsedTime / quizData.length);
+    const answeredQuestions = correctCount + wrongCount;
+    const percent = answeredQuestions > 0 ? Math.round((correctCount / quizData.length) * 100) : 0;
+    const avgSeconds = answeredQuestions > 0 ? Math.round(elapsedTime / answeredQuestions) : 0;
 
     document.getElementById('totalPoints').textContent = totalScore;
     document.getElementById('rightAnswers').textContent = correctCount;
     document.getElementById('wrongAnswers').textContent = wrongCount;
+    document.getElementById('skippedAnswers').textContent = skippedCount;
     document.getElementById('percentCorrect').textContent = `${percent}%`;
     document.getElementById('averageTime').textContent = `${avgSeconds}s`;
 }
 
 function resetQuiz() {
     clearQuizData();
+    resetConfigPanel();
+}
+
+function clearQuizData() {
+    quizData = [];
+    currentIndex = 0;
+    totalScore = 0;
+    correctCount = 0;
+    wrongCount = 0;
+    skippedCount = 0;
+    elapsedTime = 0;
+    questionStatus = [];
+    clearInterval(countdown);
     
-    summaryPanel.classList.remove('show');
     configPanel.classList.add('show');
+    playPanel.classList.remove('show');
+    summaryPanel.classList.remove('show');
+}
+
+function resetConfigPanel() {
     configPanel.innerHTML = `
         <div class="input-group">
             <label for="selectedTopic">Category:</label>
@@ -280,20 +312,5 @@ function resetQuiz() {
         </div>
         <button id="btnBegin">Start Quiz</button>
     `;
-
     document.getElementById('btnBegin').addEventListener('click', initQuiz);
-}
-
-function clearQuizData() {
-    quizData = [];
-    currentIndex = 0;
-    totalScore = 0;
-    correctCount = 0;
-    wrongCount = 0;
-    elapsedTime = 0;
-    clearInterval(countdown);
-    
-    configPanel.classList.add('show');
-    playPanel.classList.remove('show');
-    summaryPanel.classList.remove('show');
 }
