@@ -1,11 +1,11 @@
-### Page 1 ### QUIZ MATRIX
+###### QUIZ MATRIX
 Interactive Web-Based Quiz Platform
 Team Name: Ctrl+Shift+Squad
 MD SABIR AHAMED
 GUDEPU KIRANDEEP
 SHYAM NATH PATRO
 SAKETH REDDY
-### Page 2 ### Project Overview
+###### Project Overview
 Project Description
 Quiz Matrix is a modern, interactive web-based platform designed to test and enhance users' knowledge across multiple categories. It provides an engaging learning experience with real-time scoring, timed challenges, and comprehensive progress tracking.
 Problem Statement
@@ -16,7 +16,7 @@ X
 QUIZ ONLINE
 X
 X
-### Page 3 ### Key Features
+###### Key Features
 Multiple Categories
 Diverse quiz categories including General Knowledge, Science & Nature, Computers, Sports, History, and more for comprehensive learning.
 Timed Challenges
@@ -29,7 +29,7 @@ Modern UI/UX
 Intuitive interface with gradient backgrounds, smooth animations, and clear navigation for enhanced user engagement.
 Instant Feedback
 Immediate answer validation with visual feedback, correct/incorrect indicators, and instant score updates.
-### Page 4 ### Technologies Used
+###### Technologies Used
 5
 HTML5
 Semantic markup for page structure, form elements, and accessibility. Creates the foundation of the application.
@@ -42,7 +42,7 @@ No Backend Framework.
 No Database.
 No External Dependencies ·
 Pure Frontend Implementation
-### Page 5 ### Scoring System
+###### Scoring System
 Points Allocation
 Correct Answer
 +10 pts
@@ -62,7 +62,7 @@ Example Calculation:
 8 Correct + 20s Time + 5 Streak
 (80) + (12) + (10)
 = 102 Points
-### Page 6 ### Application Architecture
+###### Application Architecture
 Presentation Layer
 Business Logic Layer
 Data Layer
@@ -78,7 +78,7 @@ Local Storage
 Frontend Components: HTML structure with semantic tags, CSS styling with flexbox/grid
 JavaScript Module: Quiz logic, answer validation, timer management, DOM manipulation
 Data Management: Client-side state storage, in-memory data structures, local storage
-### Page 7 ### Implementation Highlights
+###### Implementation Highlights
 Core Highlights
 User Flow
 Seamless navigation from category selection through quiz completion to results display.
@@ -95,11 +95,3 @@ Custom Quiz
 Social Sharing
 Badges
 Analytics
-### Page 8 ### THANK YOU!
-Questions & Feedback
-Ctrl+Shift+Squad
-MD Sabir Ahamed
-Shyam Nath Patro
-Gudepu Kirandeep
-Saketh Reddy
-"Quiz Matrix - Building Knowledge, One Question at a Time"
