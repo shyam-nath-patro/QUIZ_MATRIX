@@ -1,10 +1,5 @@
 ###### QUIZ MATRIX
 Interactive Web-Based Quiz Platform
-Team Name: Ctrl+Shift+Squad
-MD SABIR AHAMED
-GUDEPU KIRANDEEP
-SHYAM NATH PATRO
-SAKETH REDDY
 ###### Project Overview
 Project Description
 Quiz Matrix is a modern, interactive web-based platform designed to test and enhance users' knowledge across multiple categories. It provides an engaging learning experience with real-time scoring, timed challenges, and comprehensive progress tracking.
