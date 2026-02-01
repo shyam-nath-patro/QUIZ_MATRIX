@@ -307,6 +307,7 @@ footer p {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
+    width: 50%;
 }
 
 .btn-back:hover {
@@ -569,6 +570,7 @@ button:disabled {
 
     .hamburger {
         display: block;
+        width: 25%;
     }
 
     section {
